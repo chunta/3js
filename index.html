@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>0101</title>
+        <script type="text/javascript" src="learning-threejs/libs/three.js"></script>
+        <script type="text/javascript" src="./bower_components/jquery/dist/jquery.min.js"></script>
+    </head>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: aqua;
+        }
+    </style>
+    <body>
+        <div id="WebGL-output"></div>
+        <div>
+            <script type="text/javascript">
+                $(function() {
+                    var scene = new THREE.Scene();
+                    var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+                    var renderer = new THREE.WebGLRenderer();
+                    renderer.setClearColor(0x111111);
+                    renderer.setSize(window.innerWidth, window.innerHeight);
+                    var axes = new THREE.AxisHelper( 20 );
+                    scene.add(axes);
+
+                    var planeGeometry = new THREE.PlaneGeometry(10,10);
+                    var planeMaterial = new THREE.MeshBasicMaterial({color: 0xcccccc, wireframe: true});
+                    var plane = new THREE.Mesh(planeGeometry,planeMaterial);
+                    plane.position.x = 0;
+                    plane.position.y = 0;
+                    plane.position.z = 10;
+                    scene.add(plane);
+                    
+                    camera.position.x = 30;
+                    camera.position.y = 30;
+                    camera.position.z = 30;
+                    camera.lookAt(scene.position);
+                    camera.aspect = window.innerWidth / window.innerHeight
+
+                    $("#WebGL-output").append(renderer.domElement);
+
+                    render();
+
+                    window.addEventListener('resize', function() {
+                        camera.aspect = window.innerWidth / window.innerHeight
+                        camera.updateProjectionMatrix();
+                        renderer.setSize(window.innerWidth, window.innerHeight);
+                        render();
+                    });
+
+                    function render() {
+                        renderer.render(scene, camera)
+                    }
+                });
+            </script>
+        </div>
+    </body>
+</html>
